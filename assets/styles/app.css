@@ -1,3 +1,13 @@
+
 body {
 background-color: #f8f9fa;
+}
+
+.card {
+box-shadow: 0 0.5rem 1rem rgba(24, 16, 74, 0.15);
+transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+transform: translateY(-5px);
 }
