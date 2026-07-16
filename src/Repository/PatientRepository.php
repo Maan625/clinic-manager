@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Patient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\query;
 
 /**
  * @extends ServiceEntityRepository<Patient>
@@ -19,7 +20,7 @@ class PatientRepository extends ServiceEntityRepository
     //    /**
     //     * @return Patient[] Returns an array of Patient objects
     //     */
-    public function findBySearch(string $search): array
+    public function findBySearch(string $search): Query
     {
         return $this->createQueryBuilder('p')
             ->where('p.firstName LIKE :search ')
@@ -27,8 +28,13 @@ class PatientRepository extends ServiceEntityRepository
             ->orWhere('p.email LIKE :search')
             ->setParameter('search', '%' . $search . '%')
             ->orderBy('p.createdAt', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+    }
+    public function findAllQuery(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'ASC')
+            ->getQuery();
     }
 
     //    public function findOneBySomeField($value): ?Patient

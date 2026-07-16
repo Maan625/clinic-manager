@@ -10,20 +10,24 @@ use App\Entity\Patient;
 use App\Form\PatientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 
 final class PatientController extends AbstractController
 {
     #[Route('/patients', name: 'app_patient_index')]
-    public function index(Request $request, PatientRepository $patientRepository): Response
+    public function index(Request $request, PatientRepository $patientRepository, PaginatorInterface $paginator): Response
     {
         $search = $request->query->getString('q');
-        if ($search) {
-            $patients = $patientRepository->findBySearch($search);
+        $page = max(1, $request->query->getInt('page', 1));
+        if ($search !== '') {
+            $query = $patientRepository->findBySearch($search);
         } else {
-            $patients = $patientRepository->findAll();
+            $query = $patientRepository->findAllQuery();
         }
+
+        $patients = $paginator->paginate($query, $page, 10);
         return $this->render('patient/index.html.twig', [
             'patients' => $patients,
             'search' => $search,
