@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Patients Details
+{% endblock %}
+
+{% block body %}
+	<div class="container py-5">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<div>
+				<h1 class="mb-1">Patient Details</h1>
+				<p class="text-muted mb-0">
+					View detailed information about the patient.
+				</p>
+			</div>
+
+			<a href="{{ path('app_patient_index') }}" class="btn btn-primary">
+				Back to Patients
+			</a>
+		</div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <table class="table mb-0">
+                    <tbody>
+                        <tr>
+                            <th scope="row">First Name</th>
+                            <td>{{ patient.firstname }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last Name</th>
+                            <td>{{ patient.lastname }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ patient.email ? patient.email : '_' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone</th>
+                            <td>{{ patient.phone ? patient.phone : '_' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date of Birth</th>
+                            <td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '_' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Address</th>
+                            <td>{{ patient.address ? patient.address : '_' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date Created</th>
+                            <td>{{ patient.createdAt|date('Y-m-d') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+	{% endblock %}
