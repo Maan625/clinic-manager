@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PatientRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 class Patient
@@ -15,18 +16,40 @@ class Patient
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank (message: 'First name is required.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'First name must be at least {{ limit }} characters long.',
+        maxMessage: 'First name cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank (message: 'Last name is required.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Last name must be at least {{ limit }} characters long.',
+        maxMessage: 'Last name cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180, nullable: true)]
+    #[Assert\Email(message: 'The email address is not valid.')]
     private ?string $email = null;
 
     #[ORM\Column(length: 30, nullable: true)]
+    #[Assert\Length(
+        min: 10,
+        max: 15,
+        minMessage: 'Phone number must be at least {{ limit }} characters long.',
+        maxMessage: 'Phone number cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $phone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\Date(message: 'The birth date is not valid.')]
     private ?\DateTime $birthDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
