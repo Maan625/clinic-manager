@@ -24,6 +24,18 @@
         <a href="{{ path('app_patient_new') }}" class="btn btn-success">Add New Patient</a>
     </div>
 </div>
+<div class="mx-4 mb-4">
+    <form method="get" action="{{ path('app_patient_index') }}" class="input-group ">
+        <input
+            type="search"
+            name="q"
+            class="form-control"
+            placeholder="Search by name or email..."
+            value="{{ search }}"
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
 <table class="table w-100 table-striped table-hover">
     <thead>
         <tr class="table-primary" >

@@ -19,17 +19,17 @@ class PatientRepository extends ServiceEntityRepository
     //    /**
     //     * @return Patient[] Returns an array of Patient objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBySearch(string $search): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.firstName LIKE :search ')
+            ->orWhere('p.lastName LIKE :search')
+            ->orWhere('p.email LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->orderBy('p.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Patient
     //    {

@@ -16,10 +16,17 @@ use Symfony\Component\HttpFoundation\Request;
 final class PatientController extends AbstractController
 {
     #[Route('/patients', name: 'app_patient_index')]
-    public function index(PatientRepository $repository): Response
+    public function index(Request $request, PatientRepository $patientRepository): Response
     {
+        $search = $request->query->getString('q');
+        if ($search) {
+            $patients = $patientRepository->findBySearch($search);
+        } else {
+            $patients = $patientRepository->findAll();
+        }
         return $this->render('patient/index.html.twig', [
-            'patients' => $repository->findAll(),
+            'patients' => $patients,
+            'search' => $search,
         ]);
     }
 
