@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 
+
 final class PatientController extends AbstractController
 {
     #[Route('/patients', name: 'app_patient_index')]
@@ -22,7 +23,7 @@ final class PatientController extends AbstractController
         ]);
     }
 
-    
+
     #[Route('/patients/new', name: 'app_patient_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -70,5 +71,23 @@ final class PatientController extends AbstractController
             'form' => $form,
             'patient' => $patient,
         ]);
+    }
+    #[Route('/patients/{id}/delete', name: 'app_patient_delete', methods: ['POST'])]
+    public function delete(
+        Request $request,
+        Patient $patient,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid(
+            'delete' . $patient->getId(),
+            $request->getPayload()->getString('_token')
+        )) {
+            $entityManager->remove($patient);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Patient deleted successfully.');
+        }
+
+        return $this->redirectToRoute('app_patient_index');
     }
 }
