@@ -1,0 +1,69 @@
+{%- extends 'base.html.twig' -%}
+
+{% block title %}Doctors Details
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success alert-dismissible fade show m-4" role="alert">
+			{{ message }}
+
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endfor %}
+	<div class="container py-5">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<div>
+				<h1 class="mb-1">Doctor Details</h1>
+				<p class="text-muted mb-0">
+					View detailed information about the doctor.
+				</p>
+			</div>
+
+			<a href="{{ path('app_doctor_index') }}" class="btn btn-primary">
+				Back to Doctors
+			</a>
+		</div>
+
+		<div class="card border-0 shadow-sm border">
+			<div class="card-body p-4 p-md-5">
+				<h2 class="h5 mb-4">Doctor Information</h2>
+
+				{{ form_start(form) }}
+
+				<div class="row g-3">
+					<div class="col-md-6 text-primary">
+						{{ form_row(form.firstName) }}
+					</div>
+
+					<div class="col-md-6 text-primary">
+						{{ form_row(form.lastName) }}
+					</div>
+
+					<div class="col-md-6 text-primary">
+						{{ form_row(form.email) }}
+					</div>
+
+					<div class="col-md-6 text-primary">
+						{{ form_row(form.phone) }}
+					</div>
+
+					<div class="col-12 text-primary">
+						{{ form_row(form.specialty) }}
+					</div>
+				</div>
+				<div class="d-flex justify-content-end gap-2 mt-4">
+					<a href="{{ path('app_doctor_index') }}" class="btn btn-light">
+						Cancel
+					</a>
+					<button type="submit" class="btn btn-primary">
+						Save Doctor
+					</button>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+

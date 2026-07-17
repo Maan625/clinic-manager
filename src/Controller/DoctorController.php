@@ -48,5 +48,42 @@ final class DoctorController extends AbstractController
             'form' => $form,
       ]);
     }
-    
+    #[Route('/doctor/{id}', name: 'app_doctor_show')]
+    public function show(Doctor $doctor): Response
+    {
+        return $this->render('doctor/show.html.twig', [
+            'doctor' => $doctor,
+        ]);
+    }
+    #[Route('/doctor/{id}/edit', name: 'app_doctor_edit')]
+    public function edit(Request $request, Doctor $doctor, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(DoctorType::class, $doctor);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Doctor updated successfully!');
+            return $this->redirectToRoute('app_doctor_index');
+        }
+
+        return $this->render('doctor/edit.html.twig', [
+            'form' => $form,
+            'doctor' => $doctor,
+        ]);
+    }
+    #[Route('/doctor/{id}/delete', name: 'app_doctor_delete', methods: ['POST'])]
+    public function delete(
+        Request $request,
+        Doctor $doctor,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid('delete'.$doctor->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($doctor);
+            $entityManager->flush();
+            $this->addFlash('success', 'Doctor deleted successfully!');
+        }
+        return $this->redirectToRoute('app_doctor_index');
+    }   
 }
