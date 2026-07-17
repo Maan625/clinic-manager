@@ -49,8 +49,9 @@ class Patient
     private ?string $phone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\Date(message: 'The birth date is not valid.')]
+    // #[Assert\Date(message: 'The birth date is not valid.')]
     private ?\DateTime $birthDate = null;
+    
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $address = null;
