@@ -16,18 +16,45 @@ class Doctor
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'First name is required.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'First name must be at least {{ limit }} characters long.',
+        maxMessage: 'First name cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Last name is required.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Last name must be at least {{ limit }} characters long.',
+        maxMessage: 'Last name cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Email is required.')]
+    #[Assert\Email(message: 'Invalid email format.')]
     private ?string $email = null;
 
     #[ORM\Column(length: 30, nullable: true)]
+    #[Assert\Length(
+        max: 30,
+        maxMessage: 'Phone number cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $phone = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank(message: 'Specialty is required.')]
+    #[Assert\Length(
+        min: 2,
+        max: 150,
+        minMessage: 'Specialty must be at least {{ limit }} characters long.',
+        maxMessage: 'Specialty cannot be longer than {{ limit }} characters.',
+    )]
     private ?string $specialty = null;
 
     #[ORM\Column]
