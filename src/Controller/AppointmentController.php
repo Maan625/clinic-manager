@@ -49,4 +49,19 @@ final class AppointmentController extends AbstractController
             'appointment' => $appointment,
         ]);
     }
+    #[Route('/appointment/{id}/edit', name: 'app_appointment_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AppointmentType::class, $appointment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Appointment updated successfully!');
+            return $this->redirectToRoute('app_appointment_index');
+        }
+        return $this->render('appointment/edit.html.twig', [
+            'form' => $form,
+            'appointment' => $appointment,
+        ]);
+    }
 }

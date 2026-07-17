@@ -13,46 +13,49 @@
 					View detailed information about the patient.
 				</p>
 			</div>
+			<div>
 
-			<a href="{{ path('app_patient_index') }}" class="btn btn-primary">
-				Back to Patients
-			</a>
+				<a href="{{ path('app_patient_index') }}" class="btn btn-primary">
+					Back to Patients
+				</a>
+				<a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-success m-4">Edit</a>
+			</div>
 		</div>
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <table class="table mb-0">
-                    <tbody>
-                        <tr>
-                            <th scope="row">First Name</th>
-                            <td>{{ patient.firstname }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Last Name</th>
-                            <td>{{ patient.lastname }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Email</th>
-                            <td>{{ patient.email ? patient.email : '_' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Phone</th>
-                            <td>{{ patient.phone ? patient.phone : '_' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Date of Birth</th>
-                            <td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '_' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Address</th>
-                            <td>{{ patient.address ? patient.address : '_' }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Date Created</th>
-                            <td>{{ patient.createdAt|date('Y-m-d') }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-	{% endblock %}
+		<div class="card border-0 shadow-sm">
+			<div class="card-body">
+				<table class="table mb-0">
+					<tbody>
+						<tr>
+							<th scope="row">First Name</th>
+							<td>{{ patient.firstname }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Last Name</th>
+							<td>{{ patient.lastname }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Email</th>
+							<td>{{ patient.email ? patient.email : '_' }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Phone</th>
+							<td>{{ patient.phone ? patient.phone : '_' }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Date of Birth</th>
+							<td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '_' }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Address</th>
+							<td>{{ patient.address ? patient.address : '_' }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Date Created</th>
+							<td>{{ patient.createdAt|date('Y-m-d') }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,42 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Appointment Details{% endblock %}
+{% block title %}Appointment Details
+{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between align-items-center m-4">
-        <div>
-            <h1 class="mb-1">Appointment Details</h1>
-            
-        </div>
+	<div class="d-flex justify-content-between align-items-center m-4">
+		<div>
+			<h1 class="mb-1">Appointment Details</h1>
 
-        <a href="{{ path('app_appointment_index') }}" class="btn btn-primary">
-            Back to Appointments
-        </a>
-    </div>
+		</div>
+		<div>
 
-     
-    <table class="table accordion m-4">
-        <tbody>
-            <tr>
-                <th>Patient</th>
-                <td>{{ appointment.patient ? appointment.patient.firstname ~ ' ' ~ appointment.patient.lastname : '_' }}</td>
-            </tr>
-            <tr>
-                <th>Doctor</th>
-                <td>{{ appointment.doctor ? appointment.doctor.firstname ~ ' ' ~ appointment.doctor.lastname : '_' }}</td>
-            </tr>
-            <tr>
-                <th>Appointment Date</th>
-                <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:i') : '_' }}</td>
-            </tr>
-            <tr>
-                <th>Reason</th>
-                <td>{{ appointment.reason ? appointment.reason : '_' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ appointment.status ? appointment.status : '_' }}</td>
-            </tr>
-        </tbody>
+			<a href="{{ path('app_appointment_index') }}" class="btn btn-primary">
+				Back to Appointments
+			</a>
+			<a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success m-4">Edit</a>
+		</div>
+	</div>
 
-{% endblock %}
+
+	<table class="table accordion m-4">
+		<tbody>
+			<tr>
+				<th>Patient</th>
+				<td>{{ appointment.patient ? appointment.patient.firstname ~ ' ' ~ appointment.patient.lastname : '_' }}</td>
+			</tr>
+			<tr>
+				<th>Doctor</th>
+				<td>{{ appointment.doctor ? appointment.doctor.firstname ~ ' ' ~ appointment.doctor.lastname : '_' }}</td>
+			</tr>
+			<tr>
+				<th>Appointment Date</th>
+				<td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:i') : '_' }}</td>
+			</tr>
+			<tr>
+				<th>Reason</th>
+				<td>{{ appointment.reason ? appointment.reason : '_' }}</td>
+			</tr>
+			<tr>
+				<th>Status</th>
+				<td>{{ appointment.status ? appointment.status : '_' }}</td>
+			</tr>
+			<tr>
+				<th>Date Created</th>
+				<td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i') : '_' }}</td>
+			</tr>
+
+		</tbody>
+
+	{% endblock %}
