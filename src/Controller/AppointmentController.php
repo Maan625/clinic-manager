@@ -42,4 +42,11 @@ final class AppointmentController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/appointment/{id}', name: 'app_appointment_show' , methods: ['GET'])]
+    public function show(Appointment $appointment): Response
+    {
+        return $this->render('appointment/show.html.twig', [
+            'appointment' => $appointment,
+        ]);
+    }
 }
