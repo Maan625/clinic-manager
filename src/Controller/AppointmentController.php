@@ -64,4 +64,14 @@ final class AppointmentController extends AbstractController
             'appointment' => $appointment,
         ]);
     }
+    #[Route('/appointment/{id}', name: 'app_appointment_delete', methods: ['POST'])]
+    public function delete(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($appointment);
+            $entityManager->flush();
+            $this->addFlash('success', 'Appointment deleted successfully!');
+        }
+        return $this->redirectToRoute('app_appointment_index');
+    }
 }
