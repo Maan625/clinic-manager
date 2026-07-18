@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+
 class AppointmentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

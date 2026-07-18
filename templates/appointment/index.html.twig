@@ -25,6 +25,10 @@
 				</a>
 			</div>
 		</div>
+        <form method="get" action="{{ path('app_appointment_index') }}" class="input-group mb-3">
+            <input type="search" name="a" class="form-control" placeholder="Search by patient or doctor..." value="{{ search }}"/>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -64,9 +68,9 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		{# <a href="{{ path('app_appointment_new') }}" class="btn btn-success">
-				        Add New Appointment
-				    </a> #}
 	</div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(appointments) }}
+    </div>
 
 {% endblock %}

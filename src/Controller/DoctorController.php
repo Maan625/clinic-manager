@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\DoctorType;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\DoctorRepository;
-use Doctrine\ORM\query;
+ 
 
 
 

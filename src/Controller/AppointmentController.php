@@ -11,18 +11,28 @@ use App\Form\AppointmentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\query;
 
 
  
 final class AppointmentController extends AbstractController
 {
     #[Route('/appointment', name: 'app_appointment_index')]
-    public function index(AppointmentRepository $appointmentRepository): Response
+    public function index(AppointmentRepository $appointmentRepository , PaginatorInterface $paginator, Request $request): Response
     {
 
+        $search = $request->query->getString('a');
+        $page = max(1, $request->query->getInt('page', 1));
+        if ($search !== '') {
+            $query = $appointmentRepository->findBySearch($search);
+        } else {
+            $query = $appointmentRepository->findAllQuery();
+        }
 
+        $appointment = $paginator->paginate($query, $page, 10);
         return $this->render('appointment/index.html.twig', [
-            'appointments' => $appointmentRepository->findAll(),
+            'appointments' => $appointment,
+            'search' => $search,
         ]);
     }
     #[Route('/appointment/new', name: 'app_appointment_new')]
