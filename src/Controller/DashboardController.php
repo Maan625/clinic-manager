@@ -13,6 +13,14 @@ use App\Repository\AppointmentRepository;
 #[IsGranted('ROLE_USER')]
 final class DashboardController extends AbstractController
 {
+    #[Route('/', name: 'app_home')]
+    public function home(): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_dashboard');
+        }
+        return $this->redirectToRoute('app_login');               
+    }
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(DoctorRepository $doctorRepository, PatientRepository $patientRepository, AppointmentRepository $appointmentRepository): Response
     {
