@@ -6,15 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Repository\DoctorRepository;
+use App\Repository\PatientRepository;
+use App\Repository\AppointmentRepository;
 
 #[IsGranted('ROLE_USER')]
 final class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(): Response
-    {
+    public function index( DoctorRepository $doctorRepository, PatientRepository $patientRepository, AppointmentRepository $appointmentRepository): Response
+    {   
+        $totalDoctors = $doctorRepository->count([]);
+        $totalPatients = $patientRepository->count([]);
+        $totalAppointments = $appointmentRepository->count([]);
+        $todayAppointments = $appointmentRepository-> FindTodyAppointment();
         return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
+            'totalDoctors' => $totalDoctors,
+            'totalPatients' => $totalPatients,
+            'totalAppointments' => $totalAppointments,
+            'todayAppointments' => $todayAppointments   
         ]);
+     
+
     }
 }

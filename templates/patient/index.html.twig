@@ -31,45 +31,92 @@
 			<button type="submit" class="btn btn-primary">Search</button>
 		</form>
 	</div>
-	<table class="table w-100 table-striped table-hover">
-		<thead>
-			<tr class="table-primary">
-				<th scope="col">First Name</th>
-				<th scope="col">Last Name</th>
-				<th scope="col">Email</th>
-				<th scope="col">Phone</th>
-				<th scope="col">Date of Birth</th>
-				<th scope="col">Address</th>
-				<th scope="col">Date Created</th>
-				<th scope="col">Actions</th>
-			</tr>
-		</thead>
-		<tbody class="">
-			{% for patient in patients %}
+	<div class="table-responsive shadow-sm rounded">
+		<table class="table table-striped table-hover align-middle mb-0">
+
+			<thead class="table-primary">
 				<tr>
-					<td>{{ patient.firstname }}</td>
-					<td>{{ patient.lastname }}</td>
-					<td>{{ patient.email ? patient.email : '_' }}</td>
-					<td>{{ patient.phone ? patient.phone : '_' }}</td>
-					<td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '_' }}</td>
-					<td>{{ patient.address ? patient.address : '_' }}</td>
-					<td>{{ patient.createdAt|date('Y-m-d') }}</td>
-					<td>
-						<a href="{{ path('app_patient_show', {'id': patient.id}) }}" class="btn btn-sm  btn-outline-primary">Show</a>
-						<a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-						<form method="post" action="{{ path('app_patient_delete', {'id': patient.id}) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this patient?');">
-							<input type="hidden" name="_token" value="{{ csrf_token('delete'~patient.id) }}">
-							<button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-						</form>
-					</td>
+					<th scope="col" class="text-nowrap">First Name</th>
+					<th scope="col" class="text-nowrap">Last Name</th>
+					<th scope="col">Email</th>
+					<th scope="col" class="text-nowrap">Phone</th>
+					<th scope="col" class="text-nowrap">Date of Birth</th>
+					<th scope="col">Address</th>
+					<th scope="col" class="text-nowrap">Date Created</th>
+					<th scope="col" class="text-nowrap">Actions</th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="8">No patients found.</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+
+			<tbody>
+				{% for patient in patients %}
+					<tr>
+						<td class="fw-semibold text-nowrap">
+							{{ patient.firstName }}
+						</td>
+
+						<td class="fw-semibold text-nowrap">
+							{{ patient.lastName }}
+						</td>
+
+						<td>
+							{{ patient.email ?: '_' }}
+						</td>
+
+						<td class="text-nowrap">
+							{{ patient.phone ?: '_' }}
+						</td>
+
+						<td class="text-nowrap">
+							{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '_' }}
+						</td>
+
+						<td>
+							<span class="d-inline-block text-truncate" style="max-width: 220px;" title="{{ patient.address ?: '_' }}">
+								{{ patient.address ?: '_' }}
+							</span>
+						</td>
+
+						<td class="text-nowrap">
+							{{ patient.createdAt|date('Y-m-d') }}
+						</td>
+
+						<td>
+							<div class="d-flex flex-nowrap gap-2">
+
+								<a href="{{ path('app_patient_show', {'id': patient.id}) }}" class="btn btn-sm btn-outline-primary" title="Show patient">
+									<i class="bi bi-eye"></i>
+									<span class="d-none d-lg-inline">Show</span>
+								</a>
+
+								<a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-sm btn-outline-secondary" title="Edit patient">
+									<i class="bi bi-pencil"></i>
+									<span class="d-none d-lg-inline">Edit</span>
+								</a>
+
+								<form method="post" action="{{ path('app_patient_delete', {'id': patient.id}) }}" onsubmit="return confirm('Are you sure you want to delete this patient?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ patient.id) }}">
+
+									<button type="submit" class="btn btn-sm btn-outline-danger" title="Delete patient">
+										<i class="bi bi-trash"></i>
+										<span class="d-none d-lg-inline">Delete</span>
+									</button>
+								</form>
+
+							</div>
+						</td>
+					</tr>
+
+				{% else %}
+					<tr>
+						<td colspan="8" class="text-center text-muted py-4">
+							No patients found.
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+
+		</table>
+	</div>
 	<div class="d-flex justify-content-center mt-4">
 		{{ knp_pagination_render(patients) }}
 	</div>

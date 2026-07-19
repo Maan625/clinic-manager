@@ -11,8 +11,7 @@ use App\Form\AppointmentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
-use Doctrine\ORM\query;
-use App\Repository\DoctorRepository;
+
 
 
 
@@ -98,4 +97,6 @@ final class AppointmentController extends AbstractController
         }
         return $this->redirectToRoute('app_appointment_index');
     }
+
+    
 }

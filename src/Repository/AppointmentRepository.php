@@ -76,6 +76,22 @@ class AppointmentRepository extends ServiceEntityRepository
             ->getSingleScalarResult() > 0;
     }
 
+    public function FindTodyAppointment (): array
+    {
+        $start = new \DateTimeImmutable('today');
+        $end = new \DateTimeImmutable('tomorrow');
+        $qb = $this->createQueryBuilder('a');
+        $qb
+            ->andWhere('a.appointmentDate >= :start')
+               ->setParameter('start', $start);
+        $qb
+            ->andWhere('a.appointmentDate < :end')
+               ->setParameter('end', $end);
+        $qb
+            ->orderBy('a.appointmentDate', 'ASC');
+        return $qb->getQuery()->getResult();          
+    }
+
     //    public function findOneBySomeField($value): ?Appointment
     //    {
     //        return $this->createQueryBuilder('a')

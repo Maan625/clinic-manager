@@ -1,52 +1,213 @@
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard
+{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1>Clinic Dashboard</h1>
-            <p class="text-muted mb-0">
-                Welcome, {{ app.user.userIdentifier }}
-            </p>
+	<div class="container mt-5">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<div>
+				<h1>Clinic Dashboard</h1>
+				<p class="text-muted mb-0">
+					Welcome,
+					{{ app.user.userIdentifier }}
+				</p>
+			</div>
+
+			<a href="{{ path('app_logout') }}" class="btn btn-outline-danger">
+				Logout
+			</a>
+		</div>
+
+		<div class="row g-4">
+
+			<div class="col-lg-4 col-md-6">
+				<div class="card dashboard-card shadow-sm border-0 h-100">
+					<div class="card-body text-center p-4">
+
+						<div class="dashboard-icon text-primary mb-3">
+							<i class="bi bi-people-fill"></i>
+						</div>
+
+						<h4 class="fw-semibold">Patients</h4>
+
+						<p class="dashboard-number text-primary mb-1">
+							{{ totalPatients }}
+						</p>
+
+						<p class="text-muted">
+							Registered patients
+						</p>
+
+						<a href="{{ path('app_patient_index') }}" class="btn btn-primary w-100">
+							Open Patients
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6">
+				<div class="card dashboard-card shadow-sm border-0 h-100">
+					<div class="card-body text-center p-4">
+
+						<div class="dashboard-icon text-success mb-3">
+							<i class="bi bi-person-badge-fill"></i>
+						</div>
+
+						<h4 class="fw-semibold">Doctors</h4>
+
+						<p class="dashboard-number text-success mb-1">
+							{{ totalDoctors }}
+						</p>
+
+						<p class="text-muted">
+							Registered doctors
+						</p>
+
+						<a href="{{ path('app_doctor_index') }}" class="btn btn-success w-100">
+							Open Doctors
+						</a>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6">
+				<div class="card dashboard-card shadow-sm border-0 h-100">
+					<div class="card-body text-center p-4">
+
+						<div class="dashboard-icon text-warning mb-3">
+							<i class="bi bi-calendar-check-fill"></i>
+						</div>
+
+						<h4 class="fw-semibold">Appointments</h4>
+
+						<p class="dashboard-number text-warning mb-1">
+							{{ totalAppointments }}
+						</p>
+
+						<p class="text-muted">
+							Total appointments
+						</p>
+
+						<a href="{{ path('app_appointment_index') }}" class="btn btn-warning w-100">
+							Open Appointments
+						</a>
+
+					</div>
+				</div>
+			</div>
+			<div class="card shadow-sm border-0 mt-5">
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+                <i class="bi bi-calendar-day text-primary"></i>
+                Today's Appointments
+            </h3>
+
+            <span class="badge bg-primary fs-6 rounded-pill">
+                {{ todayAppointments|length }}
+            </span>
         </div>
 
-        <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">
-            Logout
-        </a>
-    </div>
+        {% if todayAppointments is empty %}
 
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Patients</h5>
-                    <p class="card-text">Manage clinic patients.</p>
-                    <a href="{{ path('app_patient_index') }}" class="btn btn-primary">Open</a>
-                </div>
+            <div class="alert alert-info mb-0">
+                <i class="bi bi-info-circle me-2"></i>
+                No appointments scheduled for today.
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Doctors</h5>
-                    <p class="card-text">Manage doctors and specialties.</p>
-                    <a href="{{ path('app_doctor_index') }}" class="btn btn-primary">Open</a>
-                </div>
-            </div>
-        </div>
+        {% else %}
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Appointments</h5>
-                    <p class="card-text">Manage clinic appointments.</p>
-                    <a href="{{ path('app_appointment_index') }}" class="btn btn-primary">Open</a>
-                </div>
+            <div class="d-flex flex-column gap-3">
+
+                {% for appointment in todayAppointments %}
+
+                    <div class="appointment-item p-3 rounded-3 border">
+
+                        <div class="row align-items-center g-3">
+
+                            <div class="col-md-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-clock-fill text-primary"></i>
+
+                                    <span class="fw-bold">
+                                        {{ appointment.appointmentDate|date('H:i') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-person-fill text-success"></i>
+
+                                    <div>
+                                        <small class="text-muted d-block">
+                                            Patient
+                                        </small>
+
+                                        <span class="fw-semibold">
+                                            {{ appointment.patient.firstName }}
+                                            {{ appointment.patient.lastName }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-person-badge-fill text-info"></i>
+
+                                    <div>
+                                        <small class="text-muted d-block">
+                                            Doctor
+                                        </small>
+
+                                        <span class="fw-semibold">
+                                            Dr. {{ appointment.doctor.firstName }}
+                                            {{ appointment.doctor.lastName }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-journal-medical text-warning"></i>
+
+                                    <div>
+                                        <small class="text-muted d-block">
+                                            Reason
+                                        </small>
+
+                                        <span>
+                                            {{ appointment.reason }}
+                                        </span>
+                                    </div>
+									
+                                </div>
+                            </div>
+
+							<div class="col-md-1 text-end">
+								<a href="{{ path('app_appointment_show', { id: appointment.id }) }}" class="btn btn-primary">
+									View
+								</a>
+							</div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
             </div>
-        </div>
+
+        {% endif %}
+
     </div>
 </div>
+		</div>
+	</div>
 {% endblock %}

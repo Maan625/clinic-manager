@@ -38,7 +38,7 @@ class DoctorRepository extends ServiceEntityRepository
            return $this->createQueryBuilder('d')
                ->orderBy('d.createdAt', 'ASC')
                ->getQuery()
-               ->getResult()
+               
            ;
        }
 
