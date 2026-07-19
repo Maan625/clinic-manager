@@ -1,51 +1,236 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Appointment Details
+{% block title %}
+	Appointment Details
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex justify-content-between align-items-center m-4">
-		<div>
-			<h1 class="mb-1">Appointment Details</h1>
+
+	<div class="container py-5">
+
+		<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+			<div>
+				<h1 class="mb-1">Appointment Details</h1>
+
+				<p class="text-muted mb-0">
+					View detailed information about the appointment.
+				</p>
+			</div>
+
+			<div class="d-flex flex-wrap gap-2">
+
+				<a href="{{ path('app_appointment_index') }}" class="btn btn-outline-primary">
+					<i class="bi bi-arrow-left"></i>
+					Back to Appointments
+				</a>
+
+				<a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success">
+					<i class="bi bi-pencil"></i>
+					Edit
+				</a>
+
+			</div>
 
 		</div>
-		<div>
 
-			<a href="{{ path('app_appointment_index') }}" class="btn btn-primary">
-				Back to Appointments
-			</a>
-			<a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success m-4">Edit</a>
+		<div class="card border-0 shadow-sm">
+
+			<div class="card-header bg-primary text-white border-0 py-4">
+
+				<div class="d-flex align-items-center gap-3">
+
+					<div class="appointment-avatar">
+						<i class="bi bi-calendar-check-fill"></i>
+					</div>
+
+					<div>
+
+						<h2 class="h4 mb-1">
+							Appointment #{{ appointment.id }}
+						</h2>
+
+						<p class="mb-0 opacity-75">
+							{{ appointment.appointmentDate|date('Y-m-d H:i') }}
+						</p>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="card-body p-4">
+
+				<div class="row g-4">
+
+					<div class="col-md-6">
+
+						<div class="appointment-detail-item">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-person-fill"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Patient
+								</small>
+
+								<span class="fw-semibold">
+									{{ appointment.patient ? appointment.patient.firstName ~ ' ' ~ appointment.patient.lastName : '_' }}
+								</span>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="appointment-detail-item">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-person-badge-fill"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Doctor
+								</small>
+
+								<span class="fw-semibold">
+									{{ appointment.doctor ? appointment.doctor.firstName ~ ' ' ~ appointment.doctor.lastName : '_' }}
+								</span>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="appointment-detail-item">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-clock"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Appointment Date
+								</small>
+
+								<span class="fw-semibold">
+									{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:i') : '_' }}
+								</span>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="appointment-detail-item">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-check-circle"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Status
+								</small>
+
+								{% if appointment.status == 'scheduled' %}
+									<span class="badge bg-primary">
+										{{ appointment.status }}
+									</span>
+
+								{% elseif appointment.status == 'completed' %}
+									<span class="badge bg-success">
+										{{ appointment.status }}
+									</span>
+
+								{% elseif appointment.status == 'cancelled' %}
+									<span class="badge bg-danger">
+										{{ appointment.status }}
+									</span>
+
+								{% else %}
+									<span class="badge bg-secondary">
+										{{ appointment.status }}
+									</span>
+								{% endif %}
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-12">
+
+						<div class="appointment-detail-item align-items-start">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-journal-medical"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Reason
+								</small>
+
+								<span class="fw-semibold">
+									{{ appointment.reason ?: '_' }}
+								</span>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-12">
+
+						<div class="appointment-detail-item">
+
+							<div class="appointment-detail-icon">
+								<i class="bi bi-calendar-plus"></i>
+							</div>
+
+							<div>
+
+								<small class="text-muted d-block">
+									Date Created
+								</small>
+
+								<span class="fw-semibold">
+									{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i') : '_' }}
+								</span>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
 		</div>
+
 	</div>
 
-
-	<table class="table accordion m-4">
-		<tbody>
-			<tr>
-				<th>Patient</th>
-				<td>{{ appointment.patient ? appointment.patient.firstname ~ ' ' ~ appointment.patient.lastname : '_' }}</td>
-			</tr>
-			<tr>
-				<th>Doctor</th>
-				<td>{{ appointment.doctor ? appointment.doctor.firstname ~ ' ' ~ appointment.doctor.lastname : '_' }}</td>
-			</tr>
-			<tr>
-				<th>Appointment Date</th>
-				<td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:i') : '_' }}</td>
-			</tr>
-			<tr>
-				<th>Reason</th>
-				<td>{{ appointment.reason ? appointment.reason : '_' }}</td>
-			</tr>
-			<tr>
-				<th>Status</th>
-				<td>{{ appointment.status ? appointment.status : '_' }}</td>
-			</tr>
-			<tr>
-				<th>Date Created</th>
-				<td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i') : '_' }}</td>
-			</tr>
-
-		</tbody>
-
-	{% endblock %}
+{% endblock %}

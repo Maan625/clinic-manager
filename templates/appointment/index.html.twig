@@ -81,17 +81,17 @@
 							</td>
 
 							<td>
-								{% if appointment.status == 'Scheduled' %}
+								{% if appointment.status == 'scheduled' %}
 									<span class="badge bg-primary">
 										{{ appointment.status }}
 									</span>
 
-								{% elseif appointment.status == 'Completed' %}
+								{% elseif appointment.status == 'completed' %}
 									<span class="badge bg-success">
 										{{ appointment.status }}
 									</span>
 
-								{% elseif appointment.status == 'Cancelled' %}
+								{% elseif appointment.status == 'cancelled' %}
 									<span class="badge bg-danger">
 										{{ appointment.status }}
 									</span>
