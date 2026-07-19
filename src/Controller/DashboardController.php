@@ -14,19 +14,28 @@ use App\Repository\AppointmentRepository;
 final class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index( DoctorRepository $doctorRepository, PatientRepository $patientRepository, AppointmentRepository $appointmentRepository): Response
-    {   
+    public function index(DoctorRepository $doctorRepository, PatientRepository $patientRepository, AppointmentRepository $appointmentRepository): Response
+    {
         $totalDoctors = $doctorRepository->count([]);
         $totalPatients = $patientRepository->count([]);
         $totalAppointments = $appointmentRepository->count([]);
-        $todayAppointments = $appointmentRepository-> FindTodyAppointment();
+        $todayAppointments = $appointmentRepository->FindTodyAppointment();
+        $statusData = $appointmentRepository->countByStatus();
+        $labels = [];
+        $data = [];
+
+        foreach ($statusData as $item) {
+            $labels[] = $item['status'];
+            $data[] = $item['total'];
+        }
+
         return $this->render('dashboard/index.html.twig', [
             'totalDoctors' => $totalDoctors,
             'totalPatients' => $totalPatients,
             'totalAppointments' => $totalAppointments,
-            'todayAppointments' => $todayAppointments   
+            'todayAppointments' => $todayAppointments,
+            'labels' => $labels,
+            'data' => $data
         ]);
-     
-
     }
 }
