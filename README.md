@@ -17,3 +17,17 @@ The application provides a secure environment where authenticated users can:
 - View statistics through an interactive dashboard.
 
 This project was developed using Symfony 8 to demonstrate my backend development skills and best practices in web application development.
+
+## ✨ Features
+
+- 🔐 Secure authentication system
+- 📊 Dashboard with clinic statistics
+- 👨‍⚕️ Doctor management (Create, Read, Update, Delete)
+- 🧑‍🤝‍🧑 Patient management (Create, Read, Update, Delete)
+- 📅 Appointment management (Create, Read, Update, Delete)
+- 🚫 Appointment conflict detection
+- 🔍 Search functionality
+- 📄 Pagination
+- 📈 Interactive appointment status chart with Chart.js
+- 📱 Responsive design with Bootstrap 5
+- 🛡️ CSRF protection for forms
