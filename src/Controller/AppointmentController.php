@@ -12,13 +12,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\query;
+use App\Repository\DoctorRepository;
 
 
- 
+
+
 final class AppointmentController extends AbstractController
 {
     #[Route('/appointment', name: 'app_appointment_index')]
-    public function index(AppointmentRepository $appointmentRepository , PaginatorInterface $paginator, Request $request): Response
+    public function index(AppointmentRepository $appointmentRepository, PaginatorInterface $paginator, Request $request): Response
     {
 
         $search = $request->query->getString('a');
@@ -36,12 +38,19 @@ final class AppointmentController extends AbstractController
         ]);
     }
     #[Route('/appointment/new', name: 'app_appointment_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, AppointmentRepository $appointmentRepository): Response
     {
         $appointment = new Appointment();
         $form = $this->createForm(AppointmentType::class, $appointment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($appointmentRepository->hasConflict($appointment)) {
+                $this->addFlash('danger', 'This doctor already has an appointment at this time.');
+                return $this->redirectToRoute('app_appointment_index');
+                
+            };
+
+
             $appointment->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($appointment);
             $entityManager->flush();
@@ -52,7 +61,7 @@ final class AppointmentController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('/appointment/{id}', name: 'app_appointment_show' , methods: ['GET'])]
+    #[Route('/appointment/{id}', name: 'app_appointment_show', methods: ['GET'])]
     public function show(Appointment $appointment): Response
     {
         return $this->render('appointment/show.html.twig', [
@@ -60,11 +69,16 @@ final class AppointmentController extends AbstractController
         ]);
     }
     #[Route('/appointment/{id}/edit', name: 'app_appointment_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Appointment $appointment, EntityManagerInterface $entityManager , AppointmentRepository $appointmentRepository): Response
     {
         $form = $this->createForm(AppointmentType::class, $appointment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($appointmentRepository->hasConflict($appointment)) {
+                $this->addFlash('danger', 'This doctor already has an appointment at this time.');
+                return $this->redirectToRoute('app_appointment_index');
+                
+            };
             $entityManager->flush();
             $this->addFlash('success', 'Appointment updated successfully!');
             return $this->redirectToRoute('app_appointment_index');
@@ -77,7 +91,7 @@ final class AppointmentController extends AbstractController
     #[Route('/appointment/{id}', name: 'app_appointment_delete', methods: ['POST'])]
     public function delete(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $appointment->getId(), $request->request->get('_token'))) {
             $entityManager->remove($appointment);
             $entityManager->flush();
             $this->addFlash('success', 'Appointment deleted successfully!');
