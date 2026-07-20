@@ -31,3 +31,57 @@ This project was developed using Symfony 8 to demonstrate my backend development
 - 📈 Interactive appointment status chart with Chart.js
 - 📱 Responsive design with Bootstrap 5
 - 🛡️ CSRF protection for forms
+
+## 🛠️ Technologies
+
+### Backend
+- PHP 8.5
+- Symfony 8
+- Doctrine ORM
+
+### Frontend
+- Twig
+- Bootstrap 5
+- JavaScript
+- Chart.js
+
+### Database
+- MySQL
+
+### Tools
+- Git
+- GitHub
+- Composer
+- Symfony CLI
+- VS Code
+
+
+## 📸 Screenshots
+
+### Login
+
+![Login](docs/screenshots/login.png)
+
+---
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+---
+
+### Patients
+
+![Patients](docs/screenshots/patients.png)
+
+---
+
+### Doctors
+
+![Doctors](docs/screenshots/doctors.png)
+
+---
+
+### Appointments
+
+![Appointments](docs/screenshots/appointments.png)
